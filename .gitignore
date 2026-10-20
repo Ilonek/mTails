@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Build and packaging output
+build/
+dist/
+*.zip
+
+# Local test artifacts
+tests/out/
+screenshots/.settings/
+
+# Development probes
+.probe/
+
+# OS / editor noise
+.DS_Store
+*.log

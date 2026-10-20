@@ -1,0 +1,105 @@
+/* ============================================================
+   mTails - grid, sheet tabs and spreadsheet overlays
+   ============================================================ */
+
+/* The scroller carries the native scrollbars; the cell layer above it only
+   contains visuals and never steals pointer events. */
+#grid-scroller:focus { outline: none; }
+#grid-scroller::-webkit-scrollbar { width: 14px; height: 14px; }
+#grid-scroller::-webkit-scrollbar-thumb {
+  background: #b9b9b9; border-radius: 7px; border: 3px solid var(--grid-bg);
+}
+#grid-scroller::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
+#grid-scroller::-webkit-scrollbar-corner { background: var(--grid-bg); }
+body[data-theme="dark"] #grid-scroller::-webkit-scrollbar-thumb { background: #4c4c4c; border-color: var(--grid-bg); }
+
+/* view options */
+#grid-cells.no-gridlines .cell {
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+#sheet-area.no-headings { --header-w: 0px; --colhead-h: 0px; }
+#sheet-area.no-headings #grid-corner,
+#sheet-area.no-headings #col-headers,
+#sheet-area.no-headings #row-headers { display: none; }
+
+/* frozen pane dividers */
+.frozen-divider-x { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--grid-line-strong); z-index: 11; pointer-events: none; }
+.frozen-divider-y { position: absolute; left: 0; right: 0; height: 1px; background: var(--grid-line-strong); z-index: 11; pointer-events: none; }
+
+/* drag selection and fill preview */
+.drag-outline { position: absolute; border: 1px dashed var(--accent); background: rgba(24,90,189,.04); pointer-events: none; z-index: 13; }
+.fill-preview { position: absolute; border: 1px dashed var(--accent); background: rgba(24,90,189,.05); pointer-events: none; z-index: 13; }
+.fill-tip {
+  position: absolute; z-index: 14; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 3px; box-shadow: var(--shadow-1); font-size: 10.5px; padding: 2px 6px;
+  color: var(--text-soft); pointer-events: none; white-space: nowrap;
+}
+
+/* column filter buttons drawn over the header when an AutoFilter is active */
+.filter-btn {
+  position: absolute; right: 2px; bottom: 2px; width: 14px; height: 13px; border: 1px solid transparent;
+  border-radius: 2px; background: transparent; display: flex; align-items: center; justify-content: center;
+  color: var(--muted); z-index: 4; padding: 0;
+}
+.filter-btn:hover { background: rgba(0,0,0,.07); border-color: var(--border-strong); }
+.filter-btn.active { color: var(--accent); background: var(--accent-soft); }
+.filter-btn svg { width: 8px; height: 8px; }
+
+/* hidden row/column marker */
+.colhead.hidden-col, .rowhead.hidden-row { background: repeating-linear-gradient(45deg, var(--head-bg) 0 4px, var(--hover) 4px 8px); color: var(--muted); }
+.colhead.hidden-col span, .rowhead.hidden-row span { display: none; }
+
+/* comment pane cell links */
+.comment-card .cc-cell { font-size: 10px; color: var(--accent); font-weight: 600; margin-left: 4px; }
+.comment-card .cc-cell:hover { text-decoration: underline; }
+
+/* named range and data validation markers */
+.cell.validated { border-left: 1px dotted transparent; }
+
+/* sheet tab colors */
+.sheet-tab .tab-bar { position: absolute; left: 7px; right: 7px; bottom: 1px; height: 2px; border-radius: 2px; }
+.sheet-tab.active .tab-bar { bottom: 0; }
+
+/* fill handle should stay small at any zoom */
+#fill-handle { box-shadow: 0 0 0 1px var(--surface); }
+
+/* chart hover affordance */
+.sheet-chart:hover { box-shadow: var(--shadow-2); }
+.sheet-chart .chart-handle:hover, .sheet-image .chart-handle:hover { background: var(--accent-soft); }
+
+/* floating text boxes */
+.sheet-textbox {
+  position: absolute; background: var(--surface); border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-1); pointer-events: auto; z-index: 6; display: flex;
+  padding: 6px 8px; color: var(--text); overflow: hidden;
+}
+.sheet-textbox.selected { outline: 2px solid var(--accent); }
+.sheet-textbox .textbox-body {
+  flex: 1; min-width: 0; min-height: 0; white-space: pre-wrap; word-break: break-word;
+  overflow: hidden; line-height: 1.35;
+}
+.sheet-textbox .chart-handle {
+  position: absolute; right: -4px; bottom: -4px; width: 8px; height: 8px; background: #fff;
+  border: 1.5px solid var(--accent); cursor: nwse-resize;
+}
+
+/* formula auditing highlights */
+.cell.audit { box-shadow: inset 0 0 0 2px #1a73e8; }
+.cell .cell-rot { display: inline-block; transform-origin: center center; }
+
+/* formula bar multiline */
+#formula-bar.expanded #formula-input {
+  padding-top: 5px; padding-bottom: 5px; line-height: 1.45;
+}
+
+/* keyboard focus rings */
+button:focus-visible, input:focus-visible, select:focus-visible, .sheet-tab:focus-visible, .colhead:focus-visible, .rowhead:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px;
+}
+
+/* dark theme corrections for cells */
+body[data-theme="dark"] .cell.link { color: #6fb3ff; }
+body[data-theme="dark"] .cell.error { color: #ff8a80; }
+body[data-theme="dark"] .sel-rect, body[data-theme="dark"] .sel-active-cell { border-color: #5a9ef7; }
+body[data-theme="dark"] .cell.commented::after { border-top-color: #d7b23e; }
